@@ -36,6 +36,7 @@ export default {
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   #footerNav
+    background #ffffff
     position: fixed;
     z-index: 5;
     left: 0;

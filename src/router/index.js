@@ -10,6 +10,8 @@ import Login from '../pages/Login/Login.vue'
 import Discover from '../pages/Discover/discover.vue'
 import ShoppingCart from '../pages/ShoppingCart/ShoppingCart.vue'
 import Home from '../pages/Home/Home.vue'
+import Search from '../pages/Search/Search.vue'
+import Screening from '../pages/Screening/Screening.vue'
 //声明使用路由器
 Vue.use(VueRouter)
 //new出来一个路由器对象   传递一个对象 配置对象
@@ -36,6 +38,14 @@ routes:[
   {
     path:'/home',
     component:Home
+  },
+  {
+    path:'/search',
+    component:Search
+  },
+  {
+    path:'/screening',
+    component:Screening
   },
   {
     path: '/', // 项目根路径
