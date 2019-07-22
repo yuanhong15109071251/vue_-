@@ -1,5 +1,5 @@
 <template>
-  <div id="home" >
+  <div id="home">
     <div class="wrap">
       <div class="header">
         <span class="logo">网易严选</span>
@@ -10,8 +10,8 @@
         <button class="btn" @click="goTo('/login')">登录</button>
       </div>
       <div class="cateListNav">
-        <ul class="listNav" v-if='a.kingKongModule'>
-          <li v-for="(item,index) in a.kingKongModule.kingKongList" :key="index"   @click="lisOn(index)"  :class="{on:index==current}">
+        <ul class="listNav">
+          <li v-for="(item,index) in listArr" :key="index"   @click="lisOn(index)"  :class="{on:index==current}">
             <span >{{item.text}}</span>
           </li>
         </ul>
@@ -24,8 +24,8 @@
             <span class="pinDao">全部频道</span>
             <i class="iconfont icon-shang" @click="show=false"></i>
           </div>
-          <ul class="pinDaoList" v-if="a.kingKongModule">
-            <li v-for="(item,index) in a.kingKongModule.kingKongList" :key="index">
+          <ul class="pinDaoList">
+            <li v-for="(item,index) in listArr" :key="index">
             <span class="on" >{{item.text}}</span>
             </li>
           </ul>
@@ -61,8 +61,8 @@
       </ul>
     </div>
     <div class="last">
-        <ul class="last1" v-if=" a.kingKongModule">
-          <li v-for="(item,index) in a.kingKongModule.kingKongList" :key="index">
+        <ul class="last1">
+          <li v-for="(item,index) in listArr" :key="index">
              <span>{{item.text}}</span>
             <img :src="item.picUrl" alt=""> 
           </li>
@@ -131,42 +131,40 @@ import Swiper from "swiper";
 import "swiper/dist/css/swiper.css";
 import BScroll from "better-scroll";
 import {reqHome} from '../../api'
-import {mapState} from 'vuex' 
 export default {
   name: "Home",
   data() {
     return {
-     
       current:'',
       listArr:[],
       show: false
     };
-  },
-  computed:{
-      ...mapState(['a'])
   },
   methods: {
      lisOn(index){
       console.log(111)
         this.current=index
     },
+    // isShow(){
+    //   if(show=!show){
+
+    //   }
+    // },
     goTo(path) {
       this.$router.replace(path);
     },
     toSearch(path){
       this.$router.push(path);
- 
+
     }
   },
 
-  mounted() {
-    // this.$nextTick
-   this.$store.dispatch('getHom')
-  //  console.log(this.$store.state.current);
-     console.log(this);
-    // const result =await reqHome()
-    //  console.log('result',result.data.data.kingKongModule.kingKongList[0].text)
-    //  this.listArr=result.data.data.kingKongModule.kingKongList
+ async mounted() {
+   
+   
+    const result =await reqHome()
+     console.log('result',result.data.data.kingKongModule.kingKongList[0].text)
+     this.listArr=result.data.data.kingKongModule.kingKongList
     new BScroll(".cateListNav", {
       click: true,
       scrollX: true
