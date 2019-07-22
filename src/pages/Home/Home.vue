@@ -10,35 +10,11 @@
         <button class="btn" @click="goTo('/login')">登录</button>
       </div>
       <div class="cateListNav">
-        <div class="listNav">
-          <div>
-            <span class="on">推荐</span>
-          </div>
-          <div>
-            <span>居家生活</span>
-          </div>
-          <div>
-            <span>服饰鞋包</span>
-          </div>
-          <div>
-            <span>没事就睡</span>
-          </div>
-          <div>
-            <span>个护清洁</span>
-          </div>
-          <div>
-            <span>母婴亲子</span>
-          </div>
-          <div>
-            <span>运动旅行</span>
-          </div>
-          <div>
-            <span>数码加点</span>
-          </div>
-          <div>
-            <span>全球特色</span>
-          </div>
-        </div>
+        <ul class="listNav">
+          <li v-for="(item,index) in listArr" :key="index"   @click="lisOn(index)"  :class="{on:index==current}">
+            <span >{{item.text}}</span>
+          </li>
+        </ul>
         <div class="select" @click="show=true">
           <i class="iconfont icon-xiala"></i>
         </div>
@@ -48,35 +24,11 @@
             <span class="pinDao">全部频道</span>
             <i class="iconfont icon-shang" @click="show=false"></i>
           </div>
-          <div class="pinDaoList">
-            <div class="item">
-              <span>推荐</span>
-            </div>
-            <div>
-              <span>居家生活</span>
-            </div>
-            <div>
-              <span>服饰鞋包</span>
-            </div>
-            <div>
-              <span>没事就睡</span>
-            </div>
-            <div>
-              <span>个护清洁</span>
-            </div>
-            <div>
-              <span>母婴亲子</span>
-            </div>
-            <div>
-              <span>运动旅行</span>
-            </div>
-            <div>
-              <span>数码加点</span>
-            </div>
-            <div>
-              <span>全球特色</span>
-            </div>
-          </div>
+          <ul class="pinDaoList">
+            <li v-for="(item,index) in listArr" :key="index">
+            <span class="on" >{{item.text}}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -84,19 +36,19 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="./images/1.jpg" />
-            </div>
+            <ul class="food_container">
+                <img src="./images/1.jpg" />
+            </ul>
           </a>
         </div>
       </div>
       <div class="swiper-pagination"></div>
     </div>
     <div class="small">
-      <div class="small2">
-        <div>
+      <ul class="small2">
+        <div >
           <i class="iconfont icon-tixing"></i>
-          <span>网易自营品牌</span>
+          <span>网电子荧屏哦爱</span>
         </div>
         <div class="small3">
           <i class="iconfont icon-xingji"></i>
@@ -106,42 +58,15 @@
           <i class="iconfont icon-jiancha"></i>
           <span>网易自营品牌</span>
         </div>
-      </div>
+      </ul>
     </div>
     <div class="last">
         <ul class="last1">
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
+          <li v-for="(item,index) in listArr" :key="index">
+             <span>{{item.text}}</span>
+            <img :src="item.picUrl" alt=""> 
           </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
-          <li>
-             <span>真香</span>
-            <img src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png" alt=""> 
-          </li>
+          
         </ul>
         <div class="last2">
           <div class="last2Title">-新人专享礼-</div>
@@ -205,14 +130,21 @@
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.css";
 import BScroll from "better-scroll";
+import {reqHome} from '../../api'
 export default {
   name: "Home",
   data() {
     return {
+      current:'',
+      listArr:[],
       show: false
     };
   },
   methods: {
+     lisOn(index){
+      console.log(111)
+        this.current=index
+    },
     // isShow(){
     //   if(show=!show){
 
@@ -222,12 +154,17 @@ export default {
       this.$router.replace(path);
     },
     toSearch(path){
-      this.$router.replace(path);
+      this.$router.push(path);
 
     }
   },
 
-  mounted() {
+ async mounted() {
+   
+   
+    const result =await reqHome()
+     console.log('result',result.data.data.kingKongModule.kingKongList[0].text)
+     this.listArr=result.data.data.kingKongModule.kingKongList
     new BScroll(".cateListNav", {
       click: true,
       scrollX: true
@@ -313,6 +250,9 @@ export default {
         display flex
         overflow hidden
         width 20rem
+        li
+         &.on
+            border-bottom 0.1rem solid #f40
         span 
           display: inline-block;
           padding: 0 .21333rem;
@@ -320,8 +260,8 @@ export default {
           font-size: .37333rem;
           color: #333;
           text-align: center;
-          &.on
-            border-bottom 0.1rem solid #f40
+          // &.on
+          //   border-bottom 0.1rem solid #f40
       .moreCate
         // display: none
         // visibility: hidden;
@@ -353,7 +293,7 @@ export default {
           width 750px
           // white-space normal
           overflow hidden
-          div
+          li
             width: 2rem;
             font-size 24px
             height: .74667rem;
@@ -461,7 +401,10 @@ export default {
       font-size 38px
       margin-left 30px
       li
-        margin 0 30px
+        margin 0 19px
+        width 100px
+        height 210px
+        font-size 25px
         float left
         text-align center
         img    

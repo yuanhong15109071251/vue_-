@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
     <Footer/>
-  
+    
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default {
   name: 'app',
   components: {
     Footer
+    
   }
 }
 </script>

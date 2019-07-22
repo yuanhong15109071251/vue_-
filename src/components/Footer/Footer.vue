@@ -9,7 +9,7 @@
        <i class="iconfont icon-leimupinleifenleileibie2"></i>
        <span>分类</span>
      </a>
-      <a href="javascript:;" :class="{on:$route.path==='/discover'}"  @click="goTo('/discover')">
+      <a href="javascript:;" :class="{on:$route.path==='/discover/found'}"   @click="goTo('/discover/found')">
        <i class="iconfont icon-weibiaoti2fuzhi15"></i>
        <span>识物</span>
      </a>
@@ -27,10 +27,16 @@
 <script>
 export default {
   name:'Footer',
+  data(){
+    return {
+      
+    }
+  },
   methods:{
     goTo(path){
        this.$router.replace(path)
     }
+
   }
 }
 </script>

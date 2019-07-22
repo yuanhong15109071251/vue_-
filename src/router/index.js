@@ -12,6 +12,8 @@ import ShoppingCart from '../pages/ShoppingCart/ShoppingCart.vue'
 import Home from '../pages/Home/Home.vue'
 import Search from '../pages/Search/Search.vue'
 import Screening from '../pages/Screening/Screening.vue'
+import Found from '../pages/Found/Found.vue'
+
 //声明使用路由器
 Vue.use(VueRouter)
 //new出来一个路由器对象   传递一个对象 配置对象
@@ -23,13 +25,28 @@ routes:[
     path:'/cateList',
     component:CateList
   },
+
   {
     path:'/login',
     component:Login
   },
   {
     path:'/discover',
-    component:Discover
+    component:Discover,
+    children:[
+      {
+        path:'/discover/screening',
+        component:Screening
+      },
+      {
+        path:'/discover/found',
+        component:Found
+      },
+      {
+        path: '/discover/found', 
+        redirect: '/discover/found'
+      }
+    ]
   },
   {
     path:'/shoppingCart',
@@ -43,14 +60,16 @@ routes:[
     path:'/search',
     component:Search
   },
-  {
-    path:'/screening',
-    component:Screening
-  },
+
   {
     path: '/', // 项目根路径
     redirect: '/home'
+  },
+  {
+    path: "*",
+      redirect: "/"
   }
 ]
+
 //
 })

@@ -9,106 +9,26 @@
     <div class="wrap">
       <div class="leftList">
         <ul class="leftUl">
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
-          <li>居家生活</li>
+          <li v-for="(item,index) in cateList" :key="index"  @click="current=index"  :class="{on:index==current}">{{item.name}}</li>
         </ul>
       </div>
       <div class="rightList">
         <div class="rightHeaderWrap">
           <div class="rightHeaderWrap2">
-            <div class="rightHeader">
-              <img src="https://yanxuan.nosdn.127.net/cb225335d4a438564040f00b448e8db8.png?imageView&thumbnail=0x196" alt="">
+            <div class="rightHeader" v-if="cateList[current]">
+              <img :src="cateList[current].bannerUrl" alt="">
             </div>
             <div class="rightWrap">
-              <ul class="rightUl">
-                <li>
+              <ul class="rightUl" v-if="cateList[current]">
+                <li v-for="(item,index) in cateList[current].subCateList" :key="index">
                   <div class="liItem">
                     <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
+                      <img :src="item.wapBannerUrl" alt="">
                     </div>
-                    <span>你的名字</span>
+                    <span>{{item.name}}</span>
                   </div>
                 </li>
-             <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                 <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                 <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                 <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                 <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                 <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                  <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                  <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
-                  <li>
-                  <div class="liItem">
-                    <div class="imgDiv">
-                      <img src="https://yanxuan.nosdn.127.net/56486ce98e6ba7ae59a617759e739b09.png?imageView&quality=85&thumbnail=144x144" alt="">
-                    </div>
-                    <span>你的名字</span>
-                  </div>
-                </li>
+            
               </ul>
             </div>
           </div>
@@ -119,14 +39,27 @@
 </template>
 <script>
 import BScroll from "better-scroll";
+import {reqCateList} from '../../api'
 export default {
+  data(){
+    return{
+      current:0,
+      cateList:[]
+    }
+  },
   methods:{
+    lisOn(index){
+      console.log(111)
+        this.current=index
+    },
       toSearch(path){
-        this.$router.replace(path);
+        this.$router.push(path);
               }
   },
-  mounted(){
-    
+ async mounted(){
+   const result = await reqCateList()
+   console.log('result',result.data.data)
+    this.cateList=result.data.data
     new BScroll('.rightHeaderWrap',{
       // click: true,
       // scrollX: true
@@ -135,10 +68,11 @@ export default {
       // eventPassthrough: "vertical"
     })
       this.scroll=new BScroll('.leftList',{
-      // click: true,
+      click: true,
       // scrollX: true
       // 忽略竖直方向的滚动
       scrollY: true,
+      // stopPropagation:true,
       // eventPassthrough: "vertical"
     })
       // this.scroll.on('scrollEnd',({x,y})=>{
@@ -190,7 +124,6 @@ export default {
       float: left;
       width: 2.16rem;
       height: 99%;
-      background-color: pink;
       .leftUl
         width 100%
         font-size 28px
@@ -202,6 +135,9 @@ export default {
           height: .66667rem;
           border: none
           margin-top: .53333rem;
+          &.on
+            color #f40
+            border-left 10px solid #f40
     .rightList
       margin-left: 2.16rem;
       padding: .4rem .4rem .28rem;
@@ -248,6 +184,7 @@ export default {
                       width: 100%;
                       background: #fff;
                       height: 100%;
+                      border-radius 50%
                   span 
                     height: .96rem;
                     font-size: .32rem;

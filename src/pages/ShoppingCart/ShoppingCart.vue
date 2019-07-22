@@ -22,12 +22,18 @@
     </div>
     <div class="content">
       <span>去添加点什么吧</span>
-      <button>登录</button>
+      <button @click="goTo('/login')">登录</button>
     </div>
   </div>
 </template>
 <script>
-  export default{}
+  export default{
+    methods:{
+      goTo(path){
+        this.$router.replace(path)
+      }
+    }
+  }
 
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
