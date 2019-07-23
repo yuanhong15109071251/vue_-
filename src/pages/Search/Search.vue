@@ -25,6 +25,7 @@
 <script>
 import {reqSearch,reqSearch1} from '../../api'
 import {mapState} from 'vuex'
+
 export default {
   data() {
     return {
@@ -45,9 +46,9 @@ export default {
   methods: {
    async change(){
       const result = await reqSearch1(this.val)
-            console.log(result)
-          if (result.status*1 === 200) {
-            this.listData = result.data
+            console.log(result.data)
+          if (result.status === 200) {
+            this.listData =result.data
             console.log('进来了')
           }
   },

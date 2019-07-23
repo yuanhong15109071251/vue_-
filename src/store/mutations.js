@@ -1,5 +1,6 @@
+import {GET} from './mutations-types'
 export default{
-  get(state,a){
+ [GET](state,a){
     // console.log('2')
     state.a=a
    
@@ -7,8 +8,11 @@ export default{
   // get1(state,data){
   //   state.data=data
   // }
-  getFound(state,data){
-
-    state.data=data
+  getFound(state,found){
+    state.found=found
+  },
+  getFound1(state,found1){
+    state.found1=found1
   }
+
 }

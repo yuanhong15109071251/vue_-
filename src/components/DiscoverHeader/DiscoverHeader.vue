@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="headerRight">
-        <i class="iconfont icon-sousuo"></i>
+        <i class="iconfont icon-sousuo" @click="$router.push('/search')"></i>
         <i class="iconfont icon-qicheqianlian-"></i>
       </div>
     </div>
