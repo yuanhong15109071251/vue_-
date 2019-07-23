@@ -3,9 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index.js'
 import DiscoverHeader from './components/DiscoverHeader/DiscoverHeader.vue'
-import {} from './mock/mock-server'
+import  './mock/mock-server'
+import VeeValidate from 'vee-validate'
 Vue.config.productionTip = false
 Vue.component('DiscoverHeader',DiscoverHeader)
+Vue.use(VeeValidate,{
+  local:'zh_CN',
+  delay:'1000',
+  events:'blur'
+})
 new Vue({
   el:'#app',
   render: h => h(App),

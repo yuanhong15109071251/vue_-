@@ -72,7 +72,7 @@
           <img src="http://yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt />
         </div>
         <form class="input">
-          <input type="text" placeholder="请输入邮箱" />
+          <input type="text" placeholder="请输入邮箱"  />
           <hr>
           <br />
           <input type="text" placeholder="请输入密码" />

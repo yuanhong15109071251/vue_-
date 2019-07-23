@@ -4,7 +4,7 @@
     <div class="cateListNavWrap">
       <div class="cateListNav">
         <ul class="listNav">
-          <li v-for="(item,index) in foundList" :key="index" @click="headerNav(index)" :class="{on:index==current}">
+          <li v-for="(item,index) in found" :key="index" @click="headerNav(index)" :class="{on:index==current}">
             <span >{{item.tabName}}</span>
           </li>
           
@@ -67,6 +67,7 @@
 
 import BScroll from "better-scroll";
 import {reqFound} from '../../api'
+import {mapState} from 'vuex'
 export default {
   data(){
     return{
@@ -76,20 +77,26 @@ export default {
       current:''
     }
   },
+  computed:{
+    ...mapState(['found'])
+    
+  },
   methods: {
       headerNav(index){
         console.log(111)
      this.current=index
    },
+
   },
- async mounted() {
-   
-    const result =await reqFound()
-    console.log('result',result.data.data.data)
-    // console.log(result.categoryGroupList)
-    this.foundList= result.data.data.data
-    this.foundList1= result.data.data.data1.topics
-    console.log('result',result.data.data.data1[0].topics)
+ mounted() {
+   this.$store.dispatch('getFound')
+    
+    // const result =await reqFound()
+    // console.log('result',result.data.data.data)
+    // // console.log(result.categoryGroupList)
+    // this.foundList= result.data.data.data
+    // this.foundList1= result.data.data.data1.topics
+    // console.log('result',result.data.data.data1[0].topics)
     new BScroll(".cateListNav", {
       click: true,
       scrollX: true
