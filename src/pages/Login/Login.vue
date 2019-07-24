@@ -36,16 +36,20 @@
           </div>
         </div>
       </div>
+<!-- 手机号登录 -->
       <div class="phoneLogin" v-else-if="loginWay===2">
         <div class="logo">
           <img src="http://yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt />
         </div>
         <form class="input">
-          <input type="text" placeholder="请输入手机号" />
+          <input type="text" placeholder="请输入手机号" v-model="phone" name="phone" v-validate="{required: true,phone: true }"/>
+          <span v-show="phone" @click="phone=''">x</span>
+          <div  style="color: red; font-size:28px" v-show="errors.has('phone')">{{  errors.first('phone') }}</div>
           <hr>
           <br />
-          <input type="text" placeholder="请输入短信验证码" />
+          <input type="text" placeholder="请输入短信验证码"  v-model="msg" name="msg" v-validate="'required|length:4'"/>
           <button>获取验证码</button>
+          <div  style="color: red; font-size:28px" v-show="errors.has('msg')">{{  errors.first('msg') }}</div>
           <hr>
         </form>
         <div class="middle" >
@@ -55,7 +59,7 @@
           </dir>
           <div class="phone">
             <i class="iconfont icon-44"></i>
-            <span>登录</span>
+            <span @click="phoneLogin">登录</span>
           </div>
           <div class="email" @click="loginWay=1">
             <i class="iconfont icon-youxiang"></i>
@@ -67,15 +71,20 @@
           <i class="iconfont icon-arrow"></i>
         </div>
       </div>
+<!-- 邮箱登录 -->
       <div class="emailLogin" v-else>
            <div class="logo">
           <img src="http://yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt />
         </div>
         <form class="input">
-          <input type="text" placeholder="请输入邮箱"  />
+          <input type="text" placeholder="请输入邮箱"   v-model="email" v-validate="'required|email'" name="email"/>
+           <i v-show="email" class="iconfont icon-chazishanchudaibiankuang" @click="email=''"></i>
+            <div style="color: red;font-size:28px" v-show="errors.has('email')">{{  errors.first('email') }}</div>
           <hr>
           <br />
-          <input type="text" placeholder="请输入密码" />
+          <input  placeholder="请输入密码" type="password"  v-model="password" v-validate="'required|min:6'" name="pwd"/>
+          <i v-show="password" class="iconfont icon-chazishanchudaibiankuang" @click="password=''"></i>
+            <div style="color: red;font-size:28px" v-show="errors.has('pwd')">{{  errors.first('pwd') }}</div>
           <hr>
         </form>
         <div class="middle">
@@ -83,7 +92,7 @@
             <span>遇到问题？</span>
             <span class="span1">忘记密码</span>
           </dir>
-          <div class="phone" >
+          <div class="phone" @click="emailLogin">
             <i class="iconfont icon-44"></i>
             <span>登录</span>
           </div>
@@ -102,11 +111,77 @@
   </div>
 </template>
 <script>
+import zh_CN from 'vee-validate/dist/locale/zh_CN'
+import { setTimeout } from 'timers';
 export default {
+  
   data(){
     return{
       loginWay:1,// 1初始页面，2手机号，3邮箱
+      phone:'',//手机号
+      msg:'',//验证码
+      password: '',
+      email:'',
     }
+  },
+  methods:{
+
+    async phoneLogin(){
+        if(this.phone===''&&this.msg===''){
+          this.phone = null
+          this.msg = null
+        }else if(this.msg===''){
+          this.msg = null
+        }else if( this.phone===''){
+          this.phone = null
+        }else if(this.phone !=='' && this.msg!==''){
+          setTimeout(()=>{
+            this.$router.push('/home')
+          })
+        }
+
+        const {phone,msg} = this
+        let names = ['phone','msg']
+        const success = await this.$validator.validateAll(names)
+        if(success){
+          console.log('phoneLogin')
+        }
+
+      },
+        async emailLogin(){
+        if(this.email===''&&this.password===''){
+          this.email = null
+          this.password = null
+        }else if(this.email===''){
+          this.email = null
+        }else if(this.password===''){
+          this.password = null
+        }
+        const {email,password} = this
+        let names = ['email','pwd']
+        const success = await this.$validator.validateAll(names)
+        if(success){
+          console.log('emailLogin')
+        }
+      },
+    
+  },
+  mounted(){
+     this.$validator.extend('phone', {
+        validate: value => {
+          return  /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(value)
+        },
+        getMessage: field => '请输入正确手机号'
+      })
+      this.$validator.localize('zh_CN', {
+        messages: zh_CN.messages,
+        attributes: {
+          phone: '手机号',
+          msg: '验证码',
+          pwd: '密码',
+          email:'邮箱',
+        }
+      })
   }
 };
 </script>

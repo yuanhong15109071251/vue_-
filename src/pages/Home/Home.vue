@@ -16,6 +16,7 @@
           </li>
         </ul>
         <div class="select" @click="show=true">
+          
           <i class="iconfont icon-xiala"></i>
         </div>
         <div class="mask" v-show="show" @click="show=false"></div>

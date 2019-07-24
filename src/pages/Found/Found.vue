@@ -75,10 +75,11 @@
         </div>
       </div>
     </div>
+    <img src="" alt="">
   </div>
 </template>
 <script>
-import BScroll from "better-scroll";
+import BScroll from 'better-scroll'
 import { reqFound } from "../../api";
 import { mapState } from "vuex";
 export default {
@@ -99,6 +100,9 @@ export default {
     }
   },
   mounted() {
+    const viewHeight = document.documentElement.clientHeight
+    console.log(viewHeight);
+    
     this.$store.dispatch("getFound");
     this.$store.dispatch("getFound1");
     // this.foundList = result.data
@@ -122,7 +126,8 @@ export default {
     //   scrollY: true,
     //   // eventPassthrough: "vertical"
     // })
-  }
+  },
+ 
 };
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
